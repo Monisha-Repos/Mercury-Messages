@@ -1,0 +1,12 @@
+# Visual Studio / IDE caches
+.vs/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Secrets
+.env
