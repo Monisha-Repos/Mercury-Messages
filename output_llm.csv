@@ -1,0 +1,111 @@
+message_id,action,message_type,reason,confidence,evidence_message_ids
+msg_023,notify,business_update,A verified business is sending an update that matches the user's recent activity.,0.90,message_0243;message_0102;message_0101
+msg_091,digest,personal,"The message is safe and potentially useful, but low priority for this user.",0.83,message_0238;message_0381;message_0320
+msg_090,digest,personal,The message is from a familiar sender but does not need immediate attention.,0.78,none
+msg_048,mute,scam,"The message asks for credentials, payment, or verification in a way that matches known scam patterns.",0.85,message_0151;message_0152;message_0237
+msg_040,digest,forward,"The message is safe and potentially useful, but low priority for this user.",0.83,message_0136;message_0135;message_0259
+msg_075,notify,business_update,A verified business is sending an update that matches the user's recent activity.,0.89,message_0205;message_0206;message_0294
+msg_005,mute,personal,The user consistently ignores messages of this kind from this sender.,0.81,message_0065;message_0049;message_0401
+msg_104,digest,personal,"The message is safe and potentially useful, but low priority for this user.",0.81,message_0224;message_0050;message_0383
+msg_069,mute,greeting,The message is a routine social greeting with no action required.,0.84,message_0042;message_0177;message_0193
+msg_107,notify,personal,The message is time-sensitive and comes from a sender this user engages with.,0.87,message_0056;message_0235;message_0369
+msg_070,mute,scam,"The message asks for credentials, payment, or verification in a way that matches known scam patterns.",0.85,message_0369;message_0195;message_0213
+msg_003,notify,business_update,A verified business is sending an update that matches the user's recent activity.,0.88,message_0031;message_0400;message_0061
+msg_099,notify,personal,The message is time-sensitive and comes from a sender this user engages with.,0.87,message_0227;message_0249;message_0055
+msg_008,digest,personal,"The message is useful but arrived inside the user's quiet hours, so it is batched instead of interrupting.",0.82,message_0296;message_0072;message_0071
+msg_092,notify,payment,A verified business is sending an update that matches the user's recent activity.,0.86,message_0346;message_0344
+msg_060,digest,promotion,The message is promotional but matches a business the user has engaged with.,0.82,message_0284;message_0176;message_0404
+msg_004,notify,business_update,A verified business is sending an update that matches the user's recent activity.,0.89,message_0005;message_0245;message_0246
+msg_030,mute,forward,The message is a widely forwarded chain message with low personal relevance.,0.86,message_0115;message_0335;message_0050
+msg_045,digest,personal,"The message is safe and potentially useful, but low priority for this user.",0.80,message_0146;message_0145;message_0061
+msg_052,mute,scam,"The sender is using a domain that does not match the official brand domain, which indicates an impersonation attempt.",0.85,message_0207;message_0159;message_0208
+msg_009,mute,personal,The user consistently ignores messages of this kind from this sender.,0.84,message_0074;message_0073
+msg_071,digest,personal,"The message is safe and potentially useful, but low priority for this user.",0.84,message_0197;message_0198
+msg_016,mute,scam,"The message asks for credentials, payment, or verification in a way that matches known scam patterns.",0.85,message_0024;message_0087;message_0088
+msg_065,notify,promotion,A verified business is sending an update that matches the user's recent activity.,0.87,message_0261;message_0260;message_0185
+msg_038,digest,forward,"The message is safe and potentially useful, but low priority for this user.",0.84,message_0131;message_0132;message_0009
+msg_086,notify,promotion,A verified business is sending an update that matches the user's recent activity.,0.86,message_0222
+msg_014,mute,promotion,The sender behaves like a bulk broadcaster and this user has no active relationship with the account.,0.85,message_0017;message_0018;message_0258
+msg_094,notify,promotion,A verified business is sending an update that matches the user's recent activity.,0.86,message_0356;message_0048;message_0357
+msg_029,mute,forward,The message is a widely forwarded chain message with low personal relevance.,0.84,message_0113;message_0095;message_0332
+msg_105,mute,forward,The message is a widely forwarded chain message with low personal relevance.,0.81,message_0233;message_0373;message_0122
+msg_002,notify,personal,The sender directly asks this user for a response or action.,0.88,message_0003;message_0266;message_0041
+msg_010,notify,personal,A verified business is sending an update that matches the user's recent activity.,0.88,message_0011;message_0242;message_0075
+msg_078,mute,urgent,The user consistently ignores messages of this kind from this sender.,0.82,message_0211;message_0212;message_0163
+msg_013,digest,promotion,The message is promotional but matches a business the user has engaged with.,0.83,message_0081;message_0082
+msg_018,digest,promotion,The message is promotional but matches a business the user has engaged with.,0.80,message_0026;message_0091;message_0092
+msg_044,mute,scam,"The message asks for credentials, payment, or verification in a way that matches known scam patterns.",0.85,message_0143;message_0144;message_0036
+msg_032,digest,personal,"The message is safe and potentially useful, but low priority for this user.",0.82,message_0119;message_0285;message_0120
+msg_106,notify,personal,The message is time-sensitive and comes from a sender this user engages with.,0.88,message_0234;message_0376;message_0377
+msg_006,notify,urgent,A trusted group admin sent a time-sensitive update that should interrupt the user.,0.85,message_0029;message_0044;message_0067
+msg_109,digest,payment,"The message is safe and potentially useful, but low priority for this user.",0.79,message_0151;message_0152;message_0237
+msg_108,mute,scam,"The sender is using a domain that does not match the official brand domain, which indicates an impersonation attempt.",0.85,message_0094;message_0093;message_0236
+msg_019,mute,scam,"The sender is using a domain that does not match the official brand domain, which indicates an impersonation attempt.",0.85,message_0277;message_0094;message_0275
+msg_088,mute,personal,The user consistently ignores messages of this kind from this sender.,0.85,message_0050;message_0115;message_0116
+msg_056,digest,personal,"The message is safe and potentially useful, but low priority for this user.",0.80,message_0168;message_0167;message_0359
+msg_027,digest,promotion,The message is promotional but matches a business the user has engaged with.,0.78,message_0007;message_0033;message_0272
+msg_050,notify,business_update,A verified business is sending an update that matches the user's recent activity.,0.88,message_0279;message_0278;message_0155
+msg_083,digest,personal,"The message is safe and potentially useful, but low priority for this user.",0.80,message_0219
+msg_063,digest,payment,"The message is safe and potentially useful, but low priority for this user.",0.80,message_0182;message_0181;message_0015
+msg_033,digest,personal,"The message is safe and potentially useful, but low priority for this user.",0.82,message_0121;message_0122;message_0372
+msg_061,mute,forward,The message is a widely forwarded chain message with low personal relevance.,0.84,message_0042;message_0177;message_0193
+msg_020,digest,urgent,"The message is safe and potentially useful, but low priority for this user.",0.84,message_0096;message_0095;message_0114
+msg_017,mute,payment,The user consistently ignores messages of this kind from this sender.,0.82,message_0090;message_0089;message_0319
+msg_058,mute,forward,The message is a widely forwarded chain message with low personal relevance.,0.85,message_0241;message_0040;message_0039
+msg_026,mute,scam,"The sender is using a domain that does not match the official brand domain, which indicates an impersonation attempt.",0.85,message_0032;message_0107;message_0108
+msg_047,digest,business_update,"The message is useful information, but it is not urgent enough to interrupt the user.",0.80,message_0150;message_0149;message_0151
+msg_046,mute,scam,The message is unsolicited and shows characteristics this user has reported before.,0.83,message_0148;message_0147;message_0024
+msg_042,digest,unknown,"The message is safe and potentially useful, but low priority for this user.",0.81,message_0140;message_0058;message_0139
+msg_079,mute,scam,The message is unsolicited and shows characteristics this user has reported before.,0.82,message_0369;message_0023;message_0045
+msg_098,notify,personal,The message is time-sensitive and comes from a sender this user engages with.,0.87,message_0359;message_0054;message_0225
+msg_037,digest,unknown,"The message is safe and potentially useful, but low priority for this user.",0.78,message_0001;message_0029;message_0030
+msg_007,mute,unknown,The user consistently ignores messages of this kind from this sender.,0.81,message_0070;message_0069;message_0275
+msg_085,mute,scam,"The sender is using a domain that does not match the official brand domain, which indicates an impersonation attempt.",0.85,message_0221
+msg_001,digest,unknown,"The message is safe and potentially useful, but low priority for this user.",0.79,message_0057;message_0240;message_0139
+msg_021,digest,payment,"The message is safe and potentially useful, but low priority for this user.",0.81,message_0029;message_0044;message_0068
+msg_028,mute,promotion,The user consistently ignores messages of this kind from this sender.,0.83,message_0034;message_0112;message_0111
+msg_012,mute,forward,The message is a widely forwarded chain message with low personal relevance.,0.83,message_0079;message_0247;message_0178
+msg_064,mute,payment,The user consistently ignores messages of this kind from this sender.,0.83,message_0087;message_0183;message_0201
+msg_103,notify,personal,The message is time-sensitive and comes from a sender this user engages with.,0.87,message_0065;message_0049;message_0382
+msg_031,digest,unknown,"The message is safe and potentially useful, but low priority for this user.",0.84,message_0117;message_0118;message_0249
+msg_057,notify,urgent,The sender directly asks this user for a response or action.,0.88,message_0003;message_0059;message_0169
+msg_087,mute,personal,The user consistently ignores messages of this kind from this sender.,0.85,message_0203;message_0204;message_0223
+msg_067,digest,payment,"The message is safe and potentially useful, but low priority for this user.",0.78,message_0068;message_0098;message_0029
+msg_039,notify,payment,The sender directly asks this user for a response or action.,0.87,message_0364;message_0051;message_0037
+msg_082,digest,personal,"The message is safe and potentially useful, but low priority for this user.",0.83,message_0218;message_0397;message_0380
+msg_066,mute,spam,The sender behaves like a bulk broadcaster and this user has no active relationship with the account.,0.85,message_0402;message_0257;message_0188
+msg_049,notify,promotion,A verified business is sending an update that matches the user's recent activity.,0.87,message_0154;message_0291;message_0153
+msg_015,mute,scam,The message is unsolicited and shows characteristics this user has reported before.,0.81,message_0023;message_0045;message_0085
+msg_051,mute,spam,The sender behaves like a bulk broadcaster and this user has no active relationship with the account.,0.85,message_0257;message_0402;message_0104
+msg_097,digest,personal,The message is from a familiar sender but does not need immediate attention.,0.78,message_0054;message_0225;message_0167
+msg_089,digest,personal,The message is from a familiar sender but does not need immediate attention.,0.81,none
+msg_053,mute,forward,The message is a widely forwarded chain message with low personal relevance.,0.83,message_0411;message_0161;message_0253
+msg_059,mute,payment,The user consistently ignores messages of this kind from this sender.,0.81,message_0195;message_0213;message_0023
+msg_024,mute,spam,The sender behaves like a bulk broadcaster and this user has no active relationship with the account.,0.85,message_0257;message_0402;message_0104
+msg_072,mute,scam,"The message asks for credentials, payment, or verification in a way that matches known scam patterns.",0.85,message_0023;message_0045;message_0085
+msg_036,mute,scam,"The sender is using a domain that does not match the official brand domain, which indicates an impersonation attempt.",0.86,message_0283;message_0127;message_0128
+msg_076,mute,scam,"The sender is using a domain that does not match the official brand domain, which indicates an impersonation attempt.",0.85,message_0207;message_0159;message_0208
+msg_055,digest,urgent,"The message is safe and potentially useful, but low priority for this user.",0.82,message_0166;message_0165;message_0387
+msg_102,notify,personal,The message is time-sensitive and comes from a sender this user engages with.,0.87,message_0230;message_0371;message_0059
+msg_080,digest,unknown,"The message is safe and potentially useful, but low priority for this user.",0.78,message_0130;message_0142;message_0180
+msg_093,digest,promotion,The message is promotional but matches a business the user has engaged with.,0.84,message_0347;message_0348;message_0349
+msg_034,mute,greeting,The message is a routine social greeting with no action required.,0.84,message_0013;message_0014;message_0077
+msg_035,notify,promotion,A verified business is sending an update that matches the user's recent activity.,0.85,message_0281;message_0125;message_0126
+msg_101,digest,personal,The message is from a familiar sender but does not need immediate attention.,0.80,message_0268;message_0229;message_0370
+msg_041,digest,event,"The message is useful information, but it is not urgent enough to interrupt the user.",0.82,message_0138;message_0137;message_0106
+msg_011,mute,greeting,The message is a routine social greeting with no action required.,0.86,message_0014;message_0013;message_0077
+msg_110,mute,personal,The user consistently ignores messages of this kind from this sender.,0.82,message_0238;message_0381;message_0320
+msg_095,mute,scam,"The message asks for credentials, payment, or verification in a way that matches known scam patterns.",0.85,message_0087;message_0183;message_0201
+msg_074,mute,forward,The message is a widely forwarded chain message with low personal relevance.,0.86,message_0203;message_0204;message_0358
+msg_073,mute,urgent,The user consistently ignores messages of this kind from this sender.,0.82,message_0087;message_0183;message_0201
+msg_054,mute,payment,The user consistently ignores messages of this kind from this sender.,0.83,message_0163;message_0164;message_0358
+msg_068,digest,event,"The message is useful information, but it is not urgent enough to interrupt the user.",0.78,message_0191;message_0192
+msg_100,notify,personal,The message is time-sensitive and comes from a sender this user engages with.,0.89,message_0362;message_0228;message_0117
+msg_062,mute,forward,The message is a widely forwarded chain message with low personal relevance.,0.82,message_0043;message_0029;message_0044
+msg_096,digest,personal,The message is from a familiar sender but does not need immediate attention.,0.82,none
+msg_043,digest,forward,"The message is safe and potentially useful, but low priority for this user.",0.78,message_0001;message_0029;message_0044
+msg_077,digest,unknown,"The message is safe and potentially useful, but low priority for this user.",0.81,message_0051;message_0403;message_0037
+msg_081,mute,personal,The user consistently ignores messages of this kind from this sender.,0.81,message_0217
+msg_025,notify,business_update,A verified business is sending an update that matches the user's recent activity.,0.87,message_0004;message_0239;message_0105
+msg_084,mute,promotion,The sender behaves like a bulk broadcaster and this user has no active relationship with the account.,0.85,message_0220
+msg_022,mute,payment,The user consistently ignores messages of this kind from this sender.,0.81,message_0099;message_0151;message_0100

@@ -1,0 +1,142 @@
+## [2026-08-01T17:29:00-04:00] ONBOARDING COMPLETE
+
+AGREEMENT RECORDED: C:\_MonishaN\CS\PROJECTS\Mercury Messages
+Agent: Claude Code
+Language: py
+System Time: 2026-08-01T17:29:00-04:00 (UTC-4)
+Time Remaining: not configured
+## [2026-08-01T17:30:00-04:00] Fixed git add failure caused by .vs/ folder
+
+User Prompt (verbatim, secrets redacted):
+I agree
+
+Agent Response Summary:
+Recorded onboarding agreement. Diagnosed `git add .` failure: Visual Studio's .vs/ cache folder contains locked files (Permission denied on FileContentIndex .vsidx). Created a .gitignore excluding .vs/, Python caches, and .env, then re-ran git add successfully. Staged: .gitignore (new), code/evaluation/main.py (modified).
+
+Actions:
+* Created .gitignore at repo root
+* Ran: git add . && git status --short
+
+Context:
+tool=Claude Code
+branch=main
+repo_root=C:\_MonishaN\CS\PROJECTS\Mercury Messages
+worktree=main
+parent_agent=none
+## [2026-08-01T17:45:00-04:00] Reviewed user's proposed system architecture
+
+User Prompt (verbatim, secrets redacted):
+I've done some research and decided on a system architecture. Please review the following and ask any doubts. [Followed by full architecture document: local-only WhatsApp triage tool — React + FastAPI + Ollama, modality-branched classification (text LLM, llama3.2-vision for images, faster-whisper + librosa prosody for voice), classical ML pattern layer, weighted fusion with guardrail overrides, optional RAG personalization, demo strategy, build order.]
+
+Agent Response Summary:
+Inspected dataset/ to ground the review: 110 messages (15 image, 8 voice), 412 history rows with full engagement events, 30 labeled samples in sample_messages.csv, rich sender/business/group metadata. Reviewed architecture against the §6 contract: flagged that the graded artifact is terminal-run output.csv (notify/digest/mute + message_type + evidence_message_ids), not the upload UI; chat-export .txt parser unnecessary; evidence_message_ids makes history retrieval semi-mandatory; llama3.3 is 70B and won't run on the hardware; faster-whisper/librosa may not pip-install on Windows ARM64; outcome signal exists so logistic regression path applies; noted git repo is mid-merge from interrupted push.
+
+Actions:
+* Read dataset CSV headers and computed row counts/distributions (python csv)
+* No files modified
+
+Context:
+tool=Claude Code
+branch=main
+repo_root=C:\_MonishaN\CS\PROJECTS\Mercury Messages
+worktree=main
+parent_agent=none
+## [2026-08-01T18:40:00-04:00] Built end-to-end router scaffold; ARM64 dependency findings
+
+User Prompt (verbatim, secrets redacted):
+do it
+
+Agent Response Summary:
+Built the full pipeline scaffold per the agreed build order. Created code/router/ (config, dataset, cache, evidence, features, content, modalities, fusion, writer, pipeline) plus code/main.py CLI and rewrote code/evaluation/main.py as a scoring/ablation/calibration harness. Core is stdlib-only so output.csv is always producible. Discovered Windows ARM64 has no wheels for llvmlite (librosa), ctranslate2/av (faster-whisper), or torch (openai-whisper) - so prosody was reimplemented directly on numpy+soundfile (works, 9/13 files) and local speech-to-text has no pip path. Domain-mismatch scam detection found 21 true phishing accounts, refined to require unverified status after 2 verified false positives. Calibration produced a negative result worth keeping: grid search fits 70% but leave-one-out is 46.7%, below untuned 56.7%, so defaults were retained.
+
+Actions:
+* Created code/router/{__init__,config,dataset,cache,evidence,features,content,modalities,fusion,writer,pipeline}.py
+* Rewrote code/evaluation/main.py (preserved existing header lines)
+* Created README_SOLUTION.md, requirements.txt; updated .gitignore
+* Generated output.csv (110 rows, contract-validated) + artifacts/trace.csv
+* Verified determinism (identical output cache on/off) and cache reuse (8 miss -> 8 hit)
+
+Context:
+tool=Claude Code
+branch=main
+repo_root=C:\_MonishaN\CS\PROJECTS\Mercury Messages
+worktree=main
+parent_agent=none
+## [2026-08-01T19:05:00-04:00] Verified Ollama ARM64 availability; added bench script
+
+User Prompt (verbatim, secrets redacted):
+lets not worry about the front-end (I plan to implement that myself as a personal project, post-hackathon). can you provide commands to install Ollama and walk me thru that?
+
+Agent Response Summary:
+Front-end dropped from hackathon scope at user's request. Verified via GitHub releases API that Ollama v0.32.5 ships a native ollama-windows-arm64.zip asset (the OllamaSetup.exe installer is x64 and would run under emulation, slower for CPU inference). Confirmed both pinned model tags exist: qwen2.5:7b-instruct-q4_K_M (4.7GB) and llama3.2-vision:11b-instruct-q4_K_M (7.8GB); updated config.py to pin the vision tag explicitly instead of the floating :11b. Added code/bench.py to time text/image/voice scoring and project full-run cost, covering the user's pre-build benchmark checklist item. Did not download or install any binaries - left that to the user.
+
+Actions:
+* Edited code/router/config.py (pinned VISION_MODEL tag)
+* Created code/bench.py
+* WebFetch: ollama.com/download/windows, GitHub releases API, ollama.com library tag pages
+
+Context:
+tool=Claude Code
+branch=main
+repo_root=C:\_MonishaN\CS\PROJECTS\Mercury Messages
+worktree=main
+parent_agent=none
+## [2026-08-01T19:20:00-04:00] Fixed "could not locate ollama app" error
+
+User Prompt (verbatim, secrets redacted):
+[screenshot] getting this after step 5
+Error: could not locate ollama app (from: ollama pull qwen2.5:7b-instruct-q4_K_M)
+
+Agent Response Summary:
+Diagnosed the error: the portable ARM64 zip contains only ollama.exe and lib/, with no desktop/tray app. When the CLI cannot reach a server on port 11434 it tries to auto-launch that app and fails with this message. Verified the install was correct (ollama.exe v0.32.5 runs) and that nothing was listening on 11434 with no ollama process running - step 4 (ollama serve) was not running. Started the server in the background and confirmed the API responds at /api/tags with no models installed yet. Handed the pull command back to the user so they get download progress.
+
+Actions:
+* Inspected %USERPROFILE%\ollama contents; checked netstat 11434 and tasklist
+* Ran ollama.exe --version (0.32.5, confirmed working)
+* Started ollama serve in background; verified /api/tags responds
+
+Context:
+tool=Claude Code
+branch=main
+repo_root=C:\_MonishaN\CS\PROJECTS\Mercury Messages
+worktree=main
+parent_agent=none
+## [2026-08-01T19:55:00-04:00] Benchmarked LLM inference; added model-unavailable fallback
+
+User Prompt (verbatim, secrets redacted):
+done
+
+Agent Response Summary:
+Confirmed qwen2.5:7b-instruct-q4_K_M (4.7GB) pulled successfully. Benchmarked on ARM64 CPU: 25.4s one-off model load, 10.9s per text message, 0.3s per voice note (prosody), projecting ~16 min for a full uncached 110-message run. Image scoring returned HTTP 404 because the vision model is not pulled yet, which exposed a robustness bug: a missing model raised and would have aborted the whole run. Added safe_generate() so HTTP/URL/timeout failures fall back to the heuristic result and record it in `backend`, keeping output.csv complete under a partial model set. Started the 30-sample LLM evaluation to compare against the heuristic floor.
+
+Actions:
+* Ran code/bench.py (text 10.9s, voice 0.3s, image 404)
+* Edited code/router/modalities.py: added safe_generate(), wired into score_text_llm and score_image
+* Started code/evaluation/main.py --backend ollama in background
+
+Context:
+tool=Claude Code
+branch=main
+repo_root=C:\_MonishaN\CS\PROJECTS\Mercury Messages
+worktree=main
+parent_agent=none
+## [2026-08-02T07:30:00-04:00] LLM backend tuned; action accuracy 60% -> 73.3%
+
+User Prompt (verbatim, secrets redacted):
+[sequence of short turns] perfect! / vision model done / eval done? / done yet? / training data eval don? can we do the real data to submit for comp? / doesnt this final output for submission have to be the test data? / ill wait tell me onces its done
+
+Agent Response Summary:
+First LLM run returned flat action accuracy (60.0%) despite the model correctly raising content urgency on the clearly-urgent samples (0.39/0.62/0.66 -> 0.70/0.80/0.70). Diagnosed three causes: thresholds tuned for the old content distribution blocked correct answers; the model scored a legitimate travel promotion risk=1.00, tripping the scam veto on 5 digest samples; and group operational messages were mislabelled business_update. Fixed via a trusted_business flag exempting verified businesses with an active relationship from content-only risk vetoes, plus a rewritten prompt with explicit per-type definitions and urgency anchors. That lifted type accuracy 40->60% and joint 23.3->36.7%. Re-ran calibration, which now favoured tuning (LOO 63.3% vs 60.0% untuned, versus 46.7% vs 56.7% under the lexical scorer), so ALPHA=0.40, notify=0.60, digest=0.40 were applied. Final sample scores: action 73.3%, type 60.0%, joint 53.3%, evidence recall 89.3%; ablation now shows fusion beating both components and overrides adding 13 points. Confirmed for the user that output.csv already targets dataset/messages.csv (the unlabeled test data) and contains no sample_messages rows. Full 110-message LLM run in progress, ~45s/message.
+
+Actions:
+* Edited code/router/features.py (trusted_business flag), fusion.py (risk veto guard), modalities.py (rewritten TEXT_PROMPT, safe_generate fallback)
+* Edited code/router/config.py: ALPHA 0.65->0.40, NOTIFY 0.70->0.60, DIGEST 0.30->0.40, with calibration rationale
+* Updated README_SOLUTION.md with results, ablation, and calibration comparison
+* Verified output.csv ids match messages.csv exactly with no sample leakage
+
+Context:
+tool=Claude Code
+branch=main
+repo_root=C:\_MonishaN\CS\PROJECTS\Mercury Messages
+worktree=main
+parent_agent=none
