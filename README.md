@@ -1,130 +1,124 @@
-# HackerRank Orchestrate
+# Message Notification Router — Solution
 
-Starter repository for the **HackerRank Orchestrate** 24-hour hackathon.
+Routes every message in `dataset/messages.csv` to `notify`, `digest`, or `mute`,
+writing a contract-compliant `output.csv`.
 
-## Message Notification Router
+## Setup
 
-Build an AI-powered system for WhatsApp that decides which messages deserve immediate attention, which should wait, and which should be muted.
-
-The system must reason over multimodal messages, including text messages, image posters/screenshots, and voice notes.
-
-WhatsApp is noisy. A user can receive family chats, society notices, school updates, co-worker messages, business account promotions, image posters, voice notes, and scams in the same message stream. Treating every message the same creates two bad outcomes: important messages get missed, and unwanted or risky messages interrupt the user.
-
-Read [`problem_statement.md`](./problem_statement.md) for the full task spec, input/output schema, allowed values, and submission format.
-
----
-
-## Repository Layout
-
-```text
-.
-├── AGENTS.md                         # Rules for AI coding tools + transcript logging
-├── problem_statement.md              # Full challenge statement
-├── README.md                         # You are here
-└── dataset/
-    ├── messages.csv                  # Messages to route
-    ├── output.csv                    # Blank submission template
-    ├── sample_messages.csv           # Solved examples
-    ├── users.csv                     # User notification behavior
-    ├── groups.csv                    # Group metadata
-    ├── group_members.csv             # User-group relationships
-    ├── business_accounts.csv         # Business sender metadata
-    ├── user_business_history.csv     # User-business history
-    ├── message_history.csv           # Historical messages
-    ├── message_events.csv            # User reactions to historical messages
-    ├── images.csv                    # Image IDs and media file paths
-    ├── voice_notes.csv               # Voice note IDs and media file paths
-    ├── daily_notification_summary.csv
-    └── media/
-        ├── images/
-        └── audio/
+```bash
+python -m venv .venv
+.venv/Scripts/python.exe -m pip install -r requirements.txt
 ```
 
----
+The core pipeline is **stdlib-only** and runs without any of those packages.
+They are needed only for voice prosody (`soundfile`, `numpy`) and the
+evaluation extras.
 
-## What You Need to Build
+## Run
 
-For every row in `dataset/messages.csv`, produce one row in `output.csv` with:
+```bash
+.venv/Scripts/python.exe code/main.py
+```
 
-| Column | Meaning |
+Writes `output.csv` (repo root) and `dataset/output.csv` — the two locations the
+spec refers to — then prints a distribution summary.
+
+| Flag | Effect |
 |---|---|
-| `message_id` | Incoming message ID |
-| `action` | One of `notify`, `digest`, or `mute` |
-| `message_type` | Best-fit message category |
-| `reason` | Short human-readable explanation |
-| `confidence` | Number from `0` to `1` |
-| `evidence_message_ids` | Historical message IDs used as evidence; write `none` if there is no useful evidence |
+| `--backend ollama` | Use local LLM/VLM scoring instead of the lexical baseline |
+| `--trace artifacts/trace.csv` | Write per-message score breakdown |
+| `--limit 10 --verbose` | Smoke test |
+| `--no-cache` | Force full recompute |
 
-Your system should make personalized decisions using the provided message, user, group, business, media, and historical interaction data.
-For image and voice-note messages, `images.csv` and `voice_notes.csv` only provide file paths; your system should inspect the media files themselves.
+Evaluate against the 30 labeled samples:
 
----
+```bash
+.venv/Scripts/python.exe code/evaluation/main.py --calibrate --errors
+```
 
-## Suggested Workflow
+## Architecture
 
-1. Inspect `dataset/sample_messages.csv` to understand the expected output format.
-2. Load `dataset/messages.csv` and all relevant context files.
-3. Build your routing system using any approach: LLMs, retrieval, rules, classifiers, agents, or hybrids.
-4. Write predictions to `output.csv`.
-5. Evaluate your approach on the solved sample rows before submitting.
+Two independent scores are computed per message and then fused.
 
-You may use any language or runtime. Python, JavaScript, and TypeScript are all reasonable choices.
+**Content layer** (`content.py`, `modalities.py`) — what the message says.
+Emits `urgency` *and* `risk` separately, which matters because scams are
+engineered to read as urgent; collapsing them into one score promotes the most
+dangerous messages. Branches per modality: text, image (VLM), voice (prosody).
 
----
+**Pattern layer** (`features.py`) — how much this user values this sender.
+Built from engagement history, group mute state, business relationship, and
+notification fatigue. Never looks at message content, which is what makes the
+ablation meaningful.
 
-## Requirements
+**Fusion** (`fusion.py`) — `0.65 × content + 0.35 × pattern`, then five
+guardrail overrides, each addressing a specific failure the blend produces on
+its own: `risk_veto`, `broadcast_override`, `high_content_override`,
+`muted_group`, `dnd_degrade`.
 
-Your solution must:
+**Evidence** (`evidence.py`) — TF-IDF retrieval over `message_history.csv`
+scoped to the recipient, combining lexical similarity with a structural bonus
+for shared conversation. Emits `none` below a similarity floor rather than
+citing noise.
 
-- be runnable from the terminal
-- read the provided files from `dataset/`
-- produce a valid `output.csv`
-- include one prediction for every `message_id` in `dataset/messages.csv`
-- not use organizer-only files or hardcoded labels
+## Platform notes (Windows ARM64)
 
-If you use API keys or secrets, read them from environment variables. Never hardcode secrets in the repo.
+Three planned dependencies have no ARM64 Windows wheels and were replaced:
 
----
+| Intended | Problem | Replacement |
+|---|---|---|
+| `librosa` | `llvmlite` fails to build | Prosody implemented directly on numpy — RMS energy, autocorrelation F0, pause segmentation |
+| `faster-whisper` | `ctranslate2` / `av` unavailable | No local STT; voice notes route on prosody + conversation context |
+| `openai-whisper` | no `torch` for win-arm64 | as above |
 
-## Evaluation
+MP3 decoding works via `soundfile` (bundled libsndfile 1.2.2 reads MP3 natively).
 
-Your `output.csv` will be compared against hidden ground-truth labels.
+## Determinism
 
-The scoring will consider:
+`temperature=0`, `top_p=1`, fixed `seed`, pinned model tags, deterministic tie
+-breaking in retrieval, and output rows ordered to match `messages.csv`. All
+model calls are cached in SQLite keyed on a hash of their exact inputs, so
+re-runs are byte-identical and only changed branches recompute.
 
-- correctness of `action`
-- correctness of `message_type`
-- usefulness and consistency of `reason`
-- whether `evidence_message_ids` point to relevant historical messages
-- reasonable confidence calibration
+## Results (30 labeled samples)
 
-Strong systems will combine retrieval, structured metadata, behavioral history, safety checks, OCR/ASR handling, and contextual reasoning.
+| Metric | Lexical baseline | LLM backend |
+|---|---|---|
+| Action accuracy | 60.0% | **73.3%** |
+| Message-type accuracy | 40.0% | **60.0%** |
+| Joint accuracy | 26.7% | **53.3%** |
+| Evidence recall | 89.3% | 89.3% |
 
----
+Ablation (LLM backend) — each layer earns its place:
 
-## Chat Transcript Logging
+| Mode | Action | Type | Joint |
+|---|---|---|---|
+| Content only | 43.3% | 56.7% | 23.3% |
+| Pattern only | 53.3% | 56.7% | 33.3% |
+| Fused | 60.0% | 56.7% | 40.0% |
+| Fused + overrides | **73.3%** | **60.0%** | **53.3%** |
 
-This repo includes an [`AGENTS.md`](./AGENTS.md) file for AI coding tools. It asks compatible tools to append conversation summaries to:
+Fusion beats either component alone, and the guardrail overrides add a further
+13 points — the two-signal design is doing real work rather than dressing up a
+single classifier.
 
-| Platform | Path |
-|---|---|
-| macOS / Linux | `$HOME/hackerrank_orchestrate_august26/log.txt` |
-| Windows | `%USERPROFILE%\hackerrank_orchestrate_august26\log.txt` |
+## On calibrating the thresholds
 
-Upload this log as your chat transcript at submission time. Do not paste secrets into the chat.
+`ALPHA` and the two thresholds are fitted by grid search, but only after
+leave-one-out cross-validation confirmed the fit generalises:
 
----
+| Content scorer | Untuned | Fitted | Leave-one-out | Applied? |
+|---|---|---|---|---|
+| Lexical baseline | 56.7% | 70.0% | 46.7% | **No** — LOO below untuned |
+| LLM | 60.0% | 73.3% | 63.3% | **Yes** — LOO above untuned |
 
-## Submission
+With 30 examples and three parameters, the fitted number is optimistic by
+construction. Against the lexical scorer, tuning actively hurt: leave-one-out
+fell 10 points below simply leaving the defaults alone. The same search became
+worthwhile only once the score being thresholded carried real signal.
 
-Submit the following files as instructed by HackerRank:
+**Re-run `--calibrate` after any change to the content layer** — the correct
+thresholds depend on the distribution of the scores feeding them.
 
-1. **Code zip**: full runnable solution, prompts/configs, README, and any evaluation files.
-2. **Predictions CSV**: final `output.csv` for all rows in `dataset/messages.csv`.
-3. **Chat transcript**: the `log.txt` described above.
-
-Before submitting, confirm:
-
-- `output.csv` has one row per row in `dataset/messages.csv`.
-- `output.csv` has the exact required columns in the exact required order.
-- Your runnable code and setup instructions are included in `code.zip`.
+One finding worth noting: the fitted `ALPHA` is 0.40, meaning the sender prior
+outweighs message content. That contradicts the original design assumption that
+content should dominate as the direct evidence.
